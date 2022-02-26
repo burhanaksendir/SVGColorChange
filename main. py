@@ -1,0 +1,59 @@
+#!/usr/bin/python
+
+
+import sys
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor
+
+
+class SVGColorChangeExample(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+   
+
+    def initUI(self):
+
+        textEdit = QTextEdit()
+        self.setCentralWidget(textEdit)
+
+
+        img = QPixmap("address.svg")
+        qp = QPainter(img)
+        qp.setCompositionMode(QPainter.CompositionMode_SourceIn)
+        # You can enter any color you want here.
+        qp.fillRect( img.rect(), QColor("white") ) 
+        qp.end()
+
+
+        ic = QIcon(img)
+        adsressAct = QAction(ic, 'Address', self)
+        adsressAct.triggered.connect(self.close)
+
+        self.statusBar()
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(adsressAct)
+
+        toolbar = self.addToolBar('Exit')
+        toolbar.addAction(adsressAct)
+
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('Main window')
+        self.show()
+
+        
+
+
+def main():
+    app = QApplication(sys.argv)
+    ex = SVGColorChangeExample()
+    sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()
